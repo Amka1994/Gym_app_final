@@ -101,7 +101,12 @@ with col2:
 # Огноогоор фильтр хийх
 filtered_df = df[(df['Огноо'] >= pd.to_datetime(start_date)) & (df['Огноо'] <= pd.to_datetime(end_date))]
 
+def highlight_paid(row):
+    color = 'background-color: lightgreen' if row['Төлсөн эсэх'] == 'Төлсөн' else 'background-color: lightcoral'
+    return [color if col == 'Төлсөн эсэх' else '' for col in row.index]
+
+styled_df = filtered_df.style.apply(highlight_paid, axis=1)
 
 # Streamlit дээр харуулах
 
-st.dataframe(filtered_df, use_container_width=True)
+st.dataframe(filtered_df, styled_df, use_container_width=True)
