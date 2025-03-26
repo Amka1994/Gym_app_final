@@ -103,4 +103,5 @@ filtered_df = df[(df['Огноо'] >= pd.to_datetime(start_date)) & (df['Огн�
 
 
 # Streamlit дээр харуулах
-st.dataframe(filtered_df, width=1200)
+
+st.dataframe(filtered_df, use_container_width=True)
