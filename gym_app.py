@@ -12,7 +12,7 @@ def connect_to_sheet():
     scope = ["https://www.googleapis.com/auth/spreadsheets", 
             "https://www.googleapis.com/auth/drive"]
     
-    creds = Credentials.from_service_account_file('D:\gym_app\json\credentials.json', scopes = scope)
+    creds = Credentials.from_service_account_file('D:\gym_app\credentials.json', scopes = scope)
 
     
 
