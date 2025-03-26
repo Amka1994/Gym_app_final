@@ -109,4 +109,4 @@ styled_df = filtered_df.style.apply(highlight_paid, axis=1)
 
 # Streamlit дээр харуулах
 
-st.dataframe(filtered_df, styled_df, use_container_width=True)
+st.dataframe(styled_df, use_container_width=True)
