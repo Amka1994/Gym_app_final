@@ -108,5 +108,4 @@ def highlight_paid(row):
 styled_df = filtered_df.style.apply(highlight_paid, axis=1)
 
 # Streamlit дээр харуулах
-with col1:
-    st.dataframe(styled_df, use_container_width=True)
+st.dataframe(styled_df, use_container_width=True)
