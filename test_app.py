@@ -12,9 +12,9 @@ def connect_to_sheet():
     scope = ["https://www.googleapis.com/auth/spreadsheets", 
             "https://www.googleapis.com/auth/drive"]
     
-    #creds = Credentials.from_service_account_file("D:\gym_app\json\credentials.json", scopes = scope)
-    creds_dict = st.secrets["google_service_account"]
-    creds = Credentials.from_service_account_info(creds_dict, scopes = scope)
+    creds = Credentials.from_service_account_file("D:\gym_app\json\credentials.json", scopes = scope)
+    #creds_dict = st.secrets["google_service_account"]
+    #creds = Credentials.from_service_account_info(creds_dict, scopes = scope)
     
     client = gspread.authorize(creds)
     sheet = client.open_by_key('1LXqGEarZMI74xgBntM_pRHUEK8cWAi7KzFL2S81Cwwo').sheet1
@@ -31,15 +31,37 @@ def read_data():
 def add_data(row):
     sheet.append_row(row)
 
-#Product_list
-product_list = ['Өглөөний анги', 'Цагийн хязгааргүй', '3 сар/цагийн хязгааргүй/', '6 сар/цагийн хязгааргүй/', '3 сар /өглөө/', '6 сар /өглөө/',
+#Class_list
+class_list = ['Өглөөний анги', 'Цагийн хязгааргүй', '3 сар/цагийн хязгааргүй/', '6 сар/цагийн хязгааргүй/', '3 сар /өглөө/', '6 сар /өглөө/',
                 'Оюутан & Сурагч', 'Locker', '15 өдөр', 'Mina: Group', 'Mina: Personal', '1 удаагийн оролт']
 
+#Produc_list
+product_list = ['Том ус', 'Жижиг ус', 'Gatorade', 'Sporica', 'Target', 'Delica', 'Shaker', 'Shock', 'Rex', 'Lamington', 'Гаа', 'Strong', 'Onlyfit',
+                'Хоол', 'Wellnut', 'Cake']
+
+product_price_dict = {
+    'Том ус': 3500,
+    'Жижиг ус': 2500,
+    'Gatorade': 7500,
+    'Sporica': 7500,
+    'Target': 5000,
+    'Delica': 10000,
+    'Shaker' : 6000,
+    'Shock' : 8000,
+    'Rex' : 9000,
+    'Lamington' : 10000,
+    'Гаа' : 6000,
+    'Strong' : 11500,
+    'Onlyfit' : 3000,
+    'Хоол' : 13000,
+    'Wellnut' : 6500,
+    'Cake' : 14000
+}
 #worker list
 worker_list = ['Мина', 'Төгөлдөр', 'Галаа', 'Амка', 'Нямка']
 
 #Price_list
-price_dict = {
+class_price_dict = {
     'Өглөөний анги': 110000,
     'Цагийн хязгааргүй': 130000,
     '3 сар/цагийн хязгааргүй/': 330000,
@@ -63,12 +85,16 @@ with st.sidebar:
     
     with st.form(key='data_form'):
         buyer = st.text_input('Үйлчлүүлэгч:')
-        class_name = st.selectbox('Ангийн нэр:', ['Анги сонгоно уу'] + list(price_dict.keys()), index=0)
-        price = price_dict.get(class_name, 0)
+        class_name = st.selectbox('Ангийн нэр:', ['Анги сонгоно уу'] + list(class_price_dict.keys()), index=0)
+        product_name = st.selectbox('Бүтээгдэхүүн:', ['Бүтээгдэхүүн сонгоно уу'] + list(product_price_dict.keys()), index=0)
+        if class_name != "Анги сонгоно уу" and product_name != "Бүтээгдэхүүн сонгоно уу":
+            price = class_price_dict.get(class_name, {}).get(product_name, 0)
+        else:
+            price = 0
         sale = st.number_input('Хямдруулах дүн оруулна уу:')
         amount = price - sale
         status = st.selectbox('Төлбөр төлсөн эсэх:', Status_list)
-        current_date = datetime.date.today()
+        current_date = datetime.date.today().isoformat()
         describtion = st.text_area('Тэмдэглэл:'," ", height=150).encode('utf-8').decode('utf-8')
         worker = st.selectbox('Бүртгэсэн:', worker_list)
        
@@ -108,5 +134,4 @@ def highlight_paid(row):
 styled_df = filtered_df.style.apply(highlight_paid, axis=1)
 
 # Streamlit дээр харуулах
-with col1:
-    st.dataframe(styled_df, use_container_width=True)
+st.dataframe(styled_df, use_container_width=True)
