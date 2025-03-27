@@ -68,7 +68,7 @@ with st.sidebar:
         sale = st.number_input('Хямдруулах дүн оруулна уу:')
         amount = price - sale
         status = st.selectbox('Төлбөр төлсөн эсэх:', Status_list)
-        current_date = datetime.date.today()
+        current_date = datetime.date.today().isoformat()
         describtion = st.text_area('Тэмдэглэл:'," ", height=150).encode('utf-8').decode('utf-8')
         worker = st.selectbox('Бүртгэсэн:', worker_list)
        
