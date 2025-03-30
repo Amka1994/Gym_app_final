@@ -51,7 +51,7 @@ def fitness_form():
         current_date = datetime.date.today()
         month_name = current_date.strftime('%B')
         describtion = st.text_area('Тэмдэглэл:'," ", height=150).encode('utf-8').decode('utf-8')
-        worker = st.selectbox('Бүртгэсэн:', worker_list)
+        worker = st.selectbox('Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] + list(worker_list), index=0)
 
         status = st.selectbox('Төлбөр төлсөн эсэх:',['None'] + ['Төлсөн', 'Төлөөгүй'], index=0)
 
@@ -59,7 +59,7 @@ def fitness_form():
         if status == 'Төлсөн':
             payment_method = st.selectbox(
                 "Төлбөрийн төрөл сонгох:",
-                options=["QPay", "Данс", "Бэлэн", "POS", "StorePay"]
+                options=['Сонгоно уу',"QPay", "Данс", "Бэлэн", "POS", "StorePay"]
             )  
         
             
