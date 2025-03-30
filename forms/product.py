@@ -42,7 +42,7 @@ worker_list = ['Мина', 'Төгөлдөр', 'Галаа', 'Амка', 'Ням
 
 
 def product_form():
-    current_date = datetime.date.today()
+    current_date = datetime.datetime.today().date()
     month_name = current_date.strftime('%B')
     
     # Form эхэлж байна
