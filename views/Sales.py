@@ -90,11 +90,11 @@ else:
 today = datetime.date.today()
 
 today_income = df[
-    (df['Огноо'].dt.date == today) &
+    (df['Огноо'] == today) &
     (df['Төлсөн эсэх']=='Төлсөн')]
 
 today_income_nopay = df[
-    (df['Огноо'].dt.date == today) &
+    (df['Огноо']== today) &
     (df['Төлсөн эсэх']=='Төлөөгүй')]['Дүн'].sum()
 
 
