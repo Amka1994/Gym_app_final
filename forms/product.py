@@ -42,59 +42,61 @@ worker_list = ['Мина', 'Төгөлдөр', 'Галаа', 'Амка', 'Ням
 
 
 def product_form():
+    current_date = datetime.date.today()
+    month_name = current_date.strftime('%B')
+    
+    # Form эхэлж байна
     with st.form("fitness_sales"):
         buyer = st.text_input('Үйлчлүүлэгч:')
-
+        
         product_name = st.selectbox('Бүтээгдэхүүн:', ['Бүтээгдэхүүн сонгоно уу'] + list(product_price_dict.keys()), index=0)
-
+        
         if product_name != "Бүтээгдэхүүн сонгоно уу":
-            price = product_price_dict.get(product_name, {})
+            price = product_price_dict.get(product_name, 0)
         else:
             price = 0
-        
-        type_value = "Product"
 
-        sale = st.number_input('Хямдруулах дүн оруулна уу:')
-        qty = st.number_input('Ширхэг:')
+        type_value = "Product"
+        sale = st.number_input('Хямдруулах дүн оруулна уу:', min_value=0)
+        qty = st.number_input('Ширхэг:', min_value=0)
         amount = price - sale
         net_amount = amount * qty
-        current_date = datetime.date.today()
-        month_name = current_date.strftime('%B')
-        describtion = st.text_area('Тэмдэглэл:'," ", height=150).encode('utf-8').decode('utf-8')
-        worker = st.selectbox('Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] +  list(worker_list), index=0)
-        
-        status = st.selectbox('Төлбөр төлсөн эсэх:',['None'] + ['Төлсөн', 'Төлөөгүй'], index=0)
 
-        # Хэрвээ төлсөн бол → нэмэлт мэдээлэл асууна
+        describtion = st.text_area('Тэмдэглэл:', " ", height=150).encode('utf-8').decode('utf-8')
+
+        worker = st.selectbox('Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] + list(worker_list), index=0)
+
+        status = st.selectbox('Төлбөр төлсөн эсэх:', ['None', 'Төлсөн', 'Төлөөгүй'], index=0)
+
         payment_method = None
         if status == 'Төлсөн':
             payment_method = st.selectbox(
                 "Төлбөрийн төрөл сонгох:",
                 options=["QPay", "Данс", "Бэлэн", "POS", "StorePay"]
-            )  
+            )
 
-        with st.form("my_form"):
+        # ❗ Submit button яг энд байх ёстой!
+        submit_button = st.form_submit_button('Хадгалах')
 
-             submit_button = st.form_submit_button('Хадгалах')
-
-        if submit_button:
-            if not buyer:
-                st.warning("📌 Үйлчлүүлэгчийн нэр оруулна уу.")
-            elif product_name == "Бүтээгдэхүүн сонгоно уу":
-                st.warning("📌 Бүтээгдэхүүн сонгоно уу.")
-            elif qty <= 0:
-                st.warning("📌 Ширхэг оруулна уу.")
-            elif status == 'None':
-                st.warning("📌 Төлөв сонгоно уу.")
-            elif status == 'Төлсөн' and not payment_method:
-                st.warning("📌 Төлбөрийн төрлөө сонгоно уу.")
-            elif worker == "Хэн бүртгэж байна вэ?":
-                st.warning("📌 Бүртгэсэн хэсгээс өөрийгөө сонгоорой.")
-            else:
-                sheet = connect_to_sheet()
-                sheet.append_row([
-                    current_date.isoformat(), current_date.year, month_name, current_date.day, buyer,
-                    product_name, type_value, price, sale, qty, net_amount, status,
-                    payment_method, describtion, worker
-                ])
-                st.success("✅ Амжилттай хадгалагдлаа!")
+    # Submit дарагдсан үед гадаа логик ажиллана
+    if submit_button:
+        if not buyer:
+            st.warning("📌 Үйлчлүүлэгчийн нэр оруулна уу.")
+        elif product_name == "Бүтээгдэхүүн сонгоно уу":
+            st.warning("📌 Бүтээгдэхүүн сонгоно уу.")
+        elif qty <= 0:
+            st.warning("📌 Ширхэг оруулна уу.")
+        elif status == 'None':
+            st.warning("📌 Төлөв сонгоно уу.")
+        elif status == 'Төлсөн' and not payment_method:
+            st.warning("📌 Төлбөрийн төрлөө сонгоно уу.")
+        elif worker == "Хэн бүртгэж байна вэ?":
+            st.warning("📌 Бүртгэсэн хэсгээс өөрийгөө сонгоорой.")
+        else:
+            sheet = connect_to_sheet()
+            sheet.append_row([
+                current_date.isoformat(), current_date.year, month_name, current_date.day,
+                buyer, product_name, type_value, price, sale, qty, net_amount,
+                status, payment_method, describtion, worker
+            ])
+            st.success("✅ Амжилттай хадгалагдлаа!")
