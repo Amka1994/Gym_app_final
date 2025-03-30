@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import datetime, timedelta
+import datetime
 import gspread
 
 from utils.google_sheet import connect_to_sheet
@@ -42,7 +42,7 @@ worker_list = ['Мина', 'Төгөлдөр', 'Галаа', 'Амка', 'Ням
 
 
 def product_form():
-    current_date = (datetime.utcnow() + timedelta(hours=8)).date()
+    current_date = datetime.datetime.today().date()
     month_name = current_date.strftime('%B')
     
     # Form эхэлж байна
