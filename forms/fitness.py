@@ -1,5 +1,5 @@
 import streamlit as st
-import datetime
+from datetime import datetime, timedelta
 import gspread
 
 
@@ -34,7 +34,8 @@ class_price_dict = {
     }
 
 def fitness_form():
-    current_date = datetime.date.today()
+    
+    current_date = (datetime.utcnow() + timedelta(hours=8)).date()
     month_name = current_date.strftime('%B')
 
     with st.form("fitness_sales"):
