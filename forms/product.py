@@ -73,8 +73,9 @@ def product_form():
                 options=["QPay", "Данс", "Бэлэн", "POS", "StorePay"]
             )  
 
+        with st.form("my_form"):
 
-        submit_button = st.form_submit_button('Хадгалах')
+             submit_button = st.form_submit_button('Хадгалах')
 
     if submit_button:
         if not buyer:
@@ -83,16 +84,17 @@ def product_form():
             st.warning("📌 Бүтээгдэхүүн сонгоно уу.")
         elif qty <= 0:
             st.warning("📌 Ширхэг оруулна уу.")
-        elif status=='None':
-             st.warning("📌 Төлөв сонгоно уу.")
+        elif status == 'None':
+            st.warning("📌 Төлөв сонгоно уу.")
+        elif status == 'Төлсөн' and not payment_method:
+            st.warning("📌 Төлбөрийн төрлөө сонгоно уу.")
         elif worker == "Хэн бүртгэж байна вэ?":
-             st.warning("📌 Бүртгэсэн хэсгээс өөрийгөө сонгоорой.")
+            st.warning("📌 Бүртгэсэн хэсгээс өөрийгөө сонгоорой.")
         else:
-        # Хэрвээ бүх мэдээлэл бүрэн бол → хадгална
-            sheet=connect_to_sheet()
+            sheet = connect_to_sheet()
             sheet.append_row([
-            current_date.isoformat(), current_date.year, month_name, current_date.day, buyer, product_name, type_value, price,
-            sale, qty, net_amount, status, payment_method, describtion, worker
+                current_date.isoformat(), current_date.year, month_name, current_date.day, buyer,
+                product_name, type_value, price, sale, qty, net_amount, status,
+                payment_method, describtion, worker
             ])
             st.success("✅ Амжилттай хадгалагдлаа!")
-
