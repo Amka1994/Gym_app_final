@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import datetime
+import datetime
 import gspread
 
 
@@ -48,7 +48,7 @@ def fitness_form():
         sale = st.number_input('💸 Хямдралын дүн:', min_value=0)
         qty = st.number_input('🔢 Ширхэг:', min_value=0)
         amount = price - sale
-        current_date = datetime.today()
+        current_date = datetime.datetime.today()
         month_name = current_date.strftime('%B')
         describtion = st.text_area('📝 Тэмдэглэл:'," ", height=150).encode('utf-8').decode('utf-8')
         worker = st.selectbox('👤 Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] + list(worker_list), index=0)
