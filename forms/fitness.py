@@ -36,6 +36,7 @@ class_price_dict = {
 def fitness_form():
     current_date = datetime.date.today()
     month_name = current_date.strftime('%B')
+    
     with st.form("fitness_sales"):
         buyer = st.text_input('🧍 Үйлчлүүлэгч:')
         
