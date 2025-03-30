@@ -18,6 +18,8 @@ project_1_page = st.Page(
 
 pg = st.navigation(pages=[sales_page, project_1_page])
 
+st.set_page_config(page_title="ABYSS Fitness", page_icon="💪")
+
 with st.sidebar:
     st.markdown("---")
     st.markdown("<p style='text-align: center; font-size: 16px; color: gray;'>Created by Amka for Mina ❤️ : v1</p>", unsafe_allow_html=True)
