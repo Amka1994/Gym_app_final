@@ -45,8 +45,8 @@ def fitness_form():
             price = 0
         type_value = "Fitness"
 
-        sale = st.number_input('💸 Хямдралын дүн:')
-        qty = st.number_input('🔢 Ширхэг:')
+        sale = st.number_input('💸 Хямдралын дүн:', min_value=0)
+        qty = st.number_input('🔢 Ширхэг:', min_value=0)
         amount = price - sale
         current_date = datetime.date.today()
         month_name = current_date.strftime('%B')
