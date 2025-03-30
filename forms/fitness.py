@@ -35,31 +35,31 @@ class_price_dict = {
 
 def fitness_form():
     with st.form("fitness_sales"):
-        buyer = st.text_input('Үйлчлүүлэгч:')
+        buyer = st.text_input('🧍 Үйлчлүүлэгч:')
         
-        class_name = st.selectbox('Ангийн нэр:', ['Анги сонгоно уу'] + list(class_price_dict.keys()), index=0)
+        class_name = st.selectbox('🏋️ Ангийн нэр:', ['-- Сонгоно уу --'] + list(class_price_dict.keys()), index=0)
 
-        if class_name != "Анги сонгоно уу":
+        if class_name != '-- Сонгоно уу --':
             price = class_price_dict.get(class_name, {})
         else:
             price = 0
         type_value = "Fitness"
 
-        sale = st.number_input('Хямдруулах дүн оруулна уу:')
-        qty = st.number_input('Ширхэг:')
+        sale = st.number_input('💸 Хямдралын дүн:')
+        qty = st.number_input('🔢 Ширхэг:')
         amount = price - sale
         current_date = datetime.date.today()
         month_name = current_date.strftime('%B')
-        describtion = st.text_area('Тэмдэглэл:'," ", height=150).encode('utf-8').decode('utf-8')
-        worker = st.selectbox('Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] + list(worker_list), index=0)
+        describtion = st.text_area('📝 Тэмдэглэл:'," ", height=150).encode('utf-8').decode('utf-8')
+        worker = st.selectbox('👤 Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] + list(worker_list), index=0)
 
-        status = st.selectbox('Төлбөр төлсөн эсэх:',['None'] + ['Төлсөн', 'Төлөөгүй'], index=0)
+        status = st.selectbox('💰 Төлбөр төлсөн эсэх:',['None'] + ['Төлсөн', 'Төлөөгүй'], index=0)
 
         payment_method = None
         if status == 'Төлсөн':
             payment_method = st.selectbox(
-                "Төлбөрийн төрөл сонгох:",
-                options=['Сонгоно уу',"QPay", "Данс", "Бэлэн", "POS", "StorePay"]
+                "💳 Төлбөрийн төрөл:",
+                options=['-- Сонгоно уу --',"QPay", "Данс", "Бэлэн", "POS", "StorePay"]
             )  
         
             
@@ -68,11 +68,11 @@ def fitness_form():
     if submit_button:
         if not buyer:
             st.warning("📌 Үйлчлүүлэгчийн нэр оруулна уу.")
-        elif class_name == "Анги сонгоно уу":
+        elif class_name == '-- Сонгоно уу --':
             st.warning("📌 Ямар ангид бүртгэх вэ.")
         elif status=='None':
              st.warning("📌 Төлөв сонгоно уу.")
-        elif payment_method == 'Сонгоно уу':
+        elif payment_method == '-- Сонгоно уу --':
             st.warning("📌 Төлбөрийн төрлөө сонгоно уу.")
         elif worker == "Хэн бүртгэж байна вэ?":
              st.warning("📌 Бүртгэсэн хэсгээс өөрийгөө сонгоорой.")

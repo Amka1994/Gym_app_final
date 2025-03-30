@@ -47,32 +47,32 @@ def product_form():
     
     # Form эхэлж байна
     with st.form("fitness_sales"):
-        buyer = st.text_input('Үйлчлүүлэгч:')
+        buyer = st.text_input('🧍 Үйлчлүүлэгч:')
         
-        product_name = st.selectbox('Бүтээгдэхүүн:', ['Бүтээгдэхүүн сонгоно уу'] + list(product_price_dict.keys()), index=0)
+        product_name = st.selectbox('📦 Бүтээгдэхүүн:', ['-- Бүтээгдэхүүн сонгоно уу --'] + list(product_price_dict.keys()), index=0)
         
-        if product_name != "Бүтээгдэхүүн сонгоно уу":
+        if product_name != '-- Бүтээгдэхүүн сонгоно уу --':
             price = product_price_dict.get(product_name, 0)
         else:
             price = 0
 
         type_value = "Product"
-        sale = st.number_input('Хямдруулах дүн оруулна уу:', min_value=0)
-        qty = st.number_input('Ширхэг:', min_value=0)
+        sale = st.number_input('💸 Хямдралын дүн:', min_value=0)
+        qty = st.number_input('🔢 Ширхэг:', min_value=0)
         amount = price - sale
         net_amount = amount * qty
 
-        describtion = st.text_area('Тэмдэглэл:', " ", height=150).encode('utf-8').decode('utf-8')
+        describtion = st.text_area('📝 Тэмдэглэл:', " ", height=150).encode('utf-8').decode('utf-8')
 
-        worker = st.selectbox('Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] + list(worker_list), index=0)
+        worker = st.selectbox('👤 Бүртгэсэн:', ['Хэн бүртгэж байна вэ?'] + list(worker_list), index=0)
 
-        status = st.selectbox('Төлбөр төлсөн эсэх:', ['None', 'Төлсөн', 'Төлөөгүй'], index=0)
+        status = st.selectbox('💰 Төлбөр төлсөн эсэх:', ['None', 'Төлсөн', 'Төлөөгүй'], index=0)
 
         payment_method = None
         if status == 'Төлсөн':
             payment_method = st.selectbox(
-                "Төлбөрийн төрөл сонгох:",
-                options=["Сонгоно уу","QPay", "Данс", "Бэлэн", "POS", "StorePay"]
+                "💳 Төлбөрийн төрөл:",
+                options=["-- Сонгоно уу --","QPay", "Данс", "Бэлэн", "POS", "StorePay"]
             )
 
         # ❗ Submit button яг энд байх ёстой!
@@ -82,13 +82,13 @@ def product_form():
     if submit_button:
         if not buyer:
             st.warning("📌 Үйлчлүүлэгчийн нэр оруулна уу.")
-        elif product_name == "Бүтээгдэхүүн сонгоно уу":
+        elif product_name == '-- Бүтээгдэхүүн сонгоно уу --':
             st.warning("📌 Бүтээгдэхүүн сонгоно уу.")
         elif qty <= 0:
             st.warning("📌 Ширхэг оруулна уу.")
         elif status == 'None':
             st.warning("📌 Төлөв сонгоно уу.")
-        elif payment_method == 'Сонгоно уу':
+        elif payment_method == "-- Сонгоно уу --":
             st.warning("📌 Төлбөрийн төрлөө сонгоно уу.")
         elif worker == "Хэн бүртгэж байна вэ?":
             st.warning("📌 Бүртгэсэн хэсгээс өөрийгөө сонгоорой.")
