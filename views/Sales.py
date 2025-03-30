@@ -13,6 +13,11 @@ def load_data():
     sheet = connect_to_sheet()
     records = sheet.get_all_records()
     df = pd.DataFrame(records)
+
+    # Огноог зөвхөн date болгох
+    df['Огноо'] = pd.to_datetime(df['Огноо'], errors='coerce').dt.date
+    df = df[df['Огноо'].notna()]  # NaT мөрүүдийг хасах
+
     return df
 
 
@@ -49,20 +54,15 @@ with col2:
 
 df = load_data()
 
+today = datetime.date.today()
 
-# 1. Огноог хөрвүүлэх
-df['Огноо'] = pd.to_datetime(df['Огноо'], errors='coerce')
-df = df[df['Огноо'].notna()]
-df['Огноо'] = df['Огноо'].dt.date
-
-# 2. Хэрэглэгчийн огнооны шүүлт
+# Огнооны шүүлт UI
 col1, col2 = st.columns(2)
 with col1:
     start_date = st.date_input("Эхлэх огноо", df['Огноо'].min())
 with col2:
     end_date = st.date_input("Төгсгөл огноо", df['Огноо'].max())
 
-# 3. Фильтр
 filtered_df = df[(df['Огноо'] >= start_date) & (df['Огноо'] <= end_date)]
 
 
@@ -87,18 +87,12 @@ else:
     st.dataframe(filtered_df[columns_to_show], use_container_width=True)
 
 
-today = datetime.date.today()
-
-today_income = df[
-    (df['Огноо'] == today) &
-    (df['Төлсөн эсэх']=='Төлсөн')]
-
-today_income_nopay = df[
-    (df['Огноо']== today) &
-    (df['Төлсөн эсэх']=='Төлөөгүй')]['Дүн'].sum()
+# 6. Өнөөдрийн орлого
+today_income = df[(df['Огноо'] == today) & (df['Төлсөн эсэх'] == 'Төлсөн')]
+today_income_nopay = df[(df['Огноо'] == today) & (df['Төлсөн эсэх'] == 'Төлөөгүй')]['Дүн'].sum()
 
 
-col1, col2 =st.columns(2)
+col1, col2 = st.columns(2)
 with col1:
     today_income_payed = today_income['Дүн'].sum()
     st.metric("🟢 Өнөөдрийн төлөгдсөн орлого", f"{today_income_payed:,.0f} ₮")
@@ -106,7 +100,7 @@ with col1:
     for i, row in method_summary.iterrows():
         st.markdown(f"**{row['Method']} орлого:** {format_number(row['Дүн'])}", unsafe_allow_html=True)
 with col2:
-    st.metric("🔴 Өнөөдрийн төлөгдөөгүй орлого", f"{today_income_nopay:,.0f} ₮")
+    st.metric("🔴 Өнөөдрийн төлөөгүй орлого", f"{today_income_nopay:,.0f} ₮")
 
 
 
