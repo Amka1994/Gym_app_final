@@ -50,7 +50,7 @@ with col2:
 df = load_data()
 
 
-df['Огноо'] = pd.to_datetime(df['Огноо']).dt.date
+df['Огноо'] = pd.to_datetime(df['Огноо'])
 
 col1, col2 =st.columns(2)
 # Огноогоор фильтр хийх
