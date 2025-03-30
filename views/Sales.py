@@ -50,19 +50,25 @@ with col2:
 df = load_data()
 
 
-df['Огноо'] = pd.to_datetime(df['Огноо'])
+# 1. Огноог хөрвүүлэх
+df['Огноо'] = pd.to_datetime(df['Огноо'], errors='coerce')
+df = df[df['Огноо'].notna()]
+df['Огноо'] = df['Огноо'].dt.date
 
-col1, col2 =st.columns(2)
-# Огноогоор фильтр хийх
+# 2. Хэрэглэгчийн огнооны шүүлт
+col1, col2 = st.columns(2)
 with col1:
     start_date = st.date_input("Эхлэх огноо", df['Огноо'].min())
 with col2:
     end_date = st.date_input("Төгсгөл огноо", df['Огноо'].max())
 
+# 3. Фильтр
+filtered_df = df[(df['Огноо'] >= start_date) & (df['Огноо'] <= end_date)]
+
 
 
 # Огноогоор фильтр хийх
-filtered_df = df[(df['Огноо'] >= pd.to_datetime(start_date)) & (df['Огноо'] <= pd.to_datetime(end_date))]
+#"filtered_df = df[(df['Огноо'] >= pd.to_datetime(start_date)) & (df['Огноо'] <= pd.to_datetime(end_date))]"
 
 Status_list = ['Төлсөн', 'Төлөөгүй']
 selected_status = st.selectbox("Төлбөр төлсөн эсэх шүүх", options=['Бүгд'] + Status_list)
