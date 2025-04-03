@@ -100,3 +100,4 @@ def product_form():
                 status, payment_method, describtion, worker
             ])
             st.success("✅ Амжилттай хадгалагдлаа!")
+            st.experimental_rerun()

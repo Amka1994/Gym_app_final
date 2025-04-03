@@ -80,6 +80,7 @@ def fitness_form():
             sheet = connect_to_sheet()
             sheet.append_row([current_date.isoformat(), current_date.year, month_name, current_date.day, buyer, class_name, type_value, price, sale, qty, amount, status, payment_method, describtion, worker])
             st.success("✅ Амжилттай хадгалагдлаа!")
+            st.experimental_rerun()
 
 
     
