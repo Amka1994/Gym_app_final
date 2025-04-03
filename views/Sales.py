@@ -81,7 +81,7 @@ if selected_status != 'Бүгд':
     filtered_df = filtered_df[filtered_df['Төлсөн эсэх'] == selected_status]
 
 if selected_active != 'Бүгд':
-    filtered_df = filtered_df[filtered_df['Төрөл'] == selected_active]
+    filtered_df = filtered_df[filtered_df['Fitness'] == selected_active]
 
 # Streamlit дээр харуулах
 
