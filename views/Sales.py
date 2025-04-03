@@ -72,8 +72,17 @@ filtered_df = df[(df['Огноо'] >= start_date) & (df['Огноо'] <= end_dat
 
 Status_list = ['Төлсөн', 'Төлөөгүй']
 selected_status = st.selectbox("Төлбөр төлсөн эсэх шүүх", options=['Бүгд'] + Status_list)
-if selected_status !='Бүгд':
-    filtered_df = filtered_df[filtered_df['Төлсөн эсэх']==selected_status]
+
+Active_list = ['Fitness', 'Product']
+selected_active = st.selectbox('Төрөлөө сонгоно уу', options=['Бүгд'] + Active_list)
+
+# Шүүлт хийх
+if selected_status != 'Бүгд':
+    filtered_df = filtered_df[filtered_df['Төлсөн эсэх'] == selected_status]
+
+if selected_active != 'Бүгд':
+    filtered_df = filtered_df[filtered_df['Төрөл'] == selected_active]
+
 # Streamlit дээр харуулах
 
 columns_to_show = ['Month', 'Day', 'Үйлчлүүлэгч', 'Анги', 'Ширхэг', 'Дүн', 'Төлсөн эсэх', 'Бүртгэсэн']
